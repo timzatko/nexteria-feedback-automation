@@ -12,4 +12,4 @@ TODO:
 
 ### Prettier
 
-To get prettier working install & setup [pre-commpit](https://pre-commit.com/). Don't forget to `pre-commit install` in the repository root!
+To get prettier working install & setup [pre-commit](https://pre-commit.com/). Don't forget to `pre-commit install` in the repository root!
