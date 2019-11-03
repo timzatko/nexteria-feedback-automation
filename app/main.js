@@ -1,56 +1,100 @@
-let inProgress = false;
+/**
+ * @type {JQueryStatic}
+ */
+const $ = jQuery
 
-const clipboardValue = document.getElementById("clipboardValue");
+let clipboardData = ''
 
-document.addEventListener("paste", () => {
-  clipboardValue.value = null;
+function getClipboardContent(event) {
+  const clipboardContent = event.clipboardData.getData('text/html')
+  event.clipboardData.clearData()
+  event.preventDefault()
 
-  if (inProgress) {
-    return;
-  }
-
-  inProgress = true;
-
-  setStatus("Loading...");
-
-  setTimeout(() => {
-    const text = clipboardValue.value;
-
-    $.post(
-      "http://localhost:6060",
-      { text },
-      data => {
-        inProgress = false;
-
-        setStatus("Now copy... (Ctrl + C)");
-
-        clipboardValue.value = data.text;
-      },
-      "json"
-    );
-
-    clipboardValue.value = null;
-  });
-});
-
-document.addEventListener("copy", e => {
-  e.preventDefault();
-
-  const text = clipboardValue.value;
-
-  e.clipboardData.setData("text/plain", text);
-
-  setStatus("Copied into clipboard! Ctrl + V again?");
-});
-
-clipboardValue.addEventListener("blur", () => {
-  clipboardValue.select();
-});
-
-clipboardValue.select();
-
-function setStatus(text) {
-  document.getElementById("appStatus").innerHTML = text;
+  return clipboardContent
 }
 
-setStatus("Paste your text (Ctrl + V)");
+/**
+ * Sends a HTTP request with a provided 'method' and 'text' to a spell-checking
+ * page: https://diakritik.juls.savba.sk.
+ *
+ * @param {string} method
+ *   A method accepted by the spell-checking page.
+ *   Default: '4gram'
+ * @param {string} text Text to spell-check and automatically fix mistakes.
+ * @returns {string} String with HTML returned in the response.
+ * @example
+ *   requestHtml('Rekonstruovat')
+ */
+async function requestHtml(text, method='4gram') {
+  const fetchParams = new URLSearchParams()
+  fetchParams.set('method', method)
+  fetchParams.set('text', text)
+
+  const fetchInit = {
+    method: 'POST',
+    mode: 'cors',
+    body: fetchParams
+  }
+
+  let fetchRequest = new Request('https://cors-anywhere.herokuapp.com/https://diakritik.juls.savba.sk');
+
+  const response = await fetch(fetchRequest, fetchInit)
+  const htmlString = await response.text()
+
+  return htmlString
+}
+
+function extractOriginalText(htmlString) {
+  const tableDataElements = $(htmlString).find('td')
+
+  const textArray = []
+  tableDataElements.each((i, e) => {
+    const trimmedText = e.innerText.trim()
+
+    if (trimmedText !== '') {
+      textArray.push(trimmedText)
+    }
+  })
+
+  const textString = textArray.join(' !@#$#@! ')
+
+  return textString
+}
+
+function extractCheckedText(htmlString) {
+  let checkedText = $(htmlString).find('div.recinside').text()
+
+  checkedText = checkedText
+    .replace(/ !@#\$#@! /gmi, '\n')
+
+  return checkedText
+}
+
+function setClipboardContent(event, checkedText) {
+  console.log(checkedText)
+  // navigator.clipboard.writeText(checkedText)
+  event.clipboardData.setData('text/plain', checkedText)
+
+  // EXP: Setting clipboard content in Google Chrome does not work without
+  //      the following line.
+  event.preventDefault()
+}
+
+document.addEventListener('paste', async (event) => {
+  const originalHtmlString = getClipboardContent(event);
+  const originalText = extractOriginalText(originalHtmlString)
+  const htmlString = await requestHtml(originalText)
+  const checkedText = extractCheckedText(htmlString)
+
+  clipboardData = checkedText
+
+  console.log('Checked!')
+})
+
+document.addEventListener('copy', async (event) => {
+  setClipboardContent(event, clipboardData);
+
+  clipboardData = ''
+
+  console.log('Copied!')
+})
