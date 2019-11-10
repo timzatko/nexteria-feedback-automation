@@ -66,7 +66,7 @@ function extractOriginalText(htmlString) {
             const cellText = cellElement
                 .innerHTML
                 // .slice(1, -1)
-                .replace(/<br>/gim, " \\n ")
+                // .replace(/<br>/gim, " \\n ")
                 // .replace(/\\n/gim, "\n")
             rowArray.push(cellText)
         })
@@ -102,9 +102,10 @@ function extractOriginalText(htmlString) {
     }
 
     textString = textString
-        .replace(/p>/gim, "@>")
-        .replace(/ul>/gim, "$>")
+        .replace(/p>/gim, "!>")
+        .replace(/ul>/gim, "@>")
         .replace(/li>/gim, "#>")
+        .replace(/br>/gim, "%>")
 
     return textString;
 }
@@ -113,9 +114,10 @@ function extractCheckedTextHtml(htmlString) {
     let checkedTextHtml = $(htmlString)
         .find("div.recinside")
         .text()
-        .replace(/@>/gim, "p>")
-        .replace(/\$>/gim, "ul>")
+        .replace(/!>/gim, "p>")
+        .replace(/@>/gim, "ul>")
         .replace(/#>/gim, "li>")
+        .replace(/%>/gim, "br>")
 
     return checkedTextHtml;
 }
