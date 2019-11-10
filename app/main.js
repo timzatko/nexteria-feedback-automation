@@ -142,14 +142,10 @@ document.addEventListener("paste", async event => {
     const originalHtmlString = getClipboardContent(event);
     const originalTextTranslationForm = extractOriginalText(originalHtmlString);
 
-    console.log(originalTextTranslationForm)
-
     setStatus("Loading...");
 
     const htmlString = await requestHtml(originalTextTranslationForm);
     const checkedTextHtml = extractCheckedTextHtml(htmlString);
-
-    console.log(checkedTextHtml)
 
     clipboardData = checkedTextHtml;
 
