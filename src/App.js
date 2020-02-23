@@ -32,6 +32,7 @@ class App extends React.Component {
                         <a
                             href="https://github.com/timzatko/nexteria-feedback-automation/tree/prod/docs/Documentation.md"
                             target="_blank"
+                            rel="noreferrer noopener"
                         >
                             tejto
                         </a>{' '}
@@ -197,6 +198,7 @@ class App extends React.Component {
                                         <a
                                             href="https://github.com/timzatko/nexteria-feedback-automation/tree/prod/docs/Documentation.md"
                                             target="_blank"
+                                            rel="noreferrer noopener"
                                         >
                                             dokumentácii
                                         </a>
