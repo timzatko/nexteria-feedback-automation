@@ -61,6 +61,8 @@ class Input extends React.Component {
 
         if (type === 'select') {
             return this.renderSelect();
+        } else if (type === 'textarea') {
+            return this.renderTextarea();
         }
 
         return this.renderInput();
@@ -99,6 +101,20 @@ class Input extends React.Component {
                     </option>
                 ))}
             </select>
+        );
+    };
+
+    renderTextarea = () => {
+        const { inputKey } = this.props;
+
+        return (
+            <textarea
+                aria-describedby={`${inputKey}Help`}
+                className="form-control"
+                id={inputKey}
+                onChange={event => this.handleInputChange(event)}
+                value={this.state.value}
+            ></textarea>
         );
     };
 }

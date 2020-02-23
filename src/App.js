@@ -213,6 +213,7 @@ class App extends React.Component {
                                 inputKey={'credentials'}
                                 name={'credentials.json'}
                                 onChange={credentials => this.setState({ credentials })}
+                                type={'textarea'}
                                 value={this.state.credentials}
                             />
                         </div>
