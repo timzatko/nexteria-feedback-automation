@@ -24,10 +24,13 @@ jobs:
                   steps:
                       - run: npm install
                       - run: npm run build
+                      - store_artifacts:
+                            path: build
+
     deploy:
         executor:
             name: node/default
         steps:
             - run: apt-get update
             - run: apt-get install ftp-upload
-            - run: ftp-upload -h '${FTP_HOST}' -u '${FTP_USERNAME}' --password '${FTP_PASSWORD}' -d 'nexteria-feedback-automation-v2' .
+            - run: ftp-upload -h '${FTP_HOST}' -u '${FTP_USERNAME}' --password '${FTP_PASSWORD}' -d 'nexteria-feedback-automation-v2' 'build'
