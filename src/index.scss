@@ -1,0 +1,24 @@
+@import 'node_modules/bootstrap/scss/bootstrap';
+
+.container {
+    max-width: 960px;
+    padding-bottom: 24px;
+}
+
+form,
+.form-group {
+    width: 100%;
+}
+
+.in-progress {
+    opacity: 0.5;
+    cursor: wait;
+
+    > * {
+        pointer-events: none;
+    }
+}
+
+.alert ul {
+    margin: 0;
+}
