@@ -38,4 +38,4 @@ The build is minified and the filenames include the hashes.<br />
 
 ## Deployment
 
-This project is deployed automatically to [http://nexteria-feedback-automation.timzatko.eu](http://nexteria-feedback-automation.timzatko.eu) after pushing/merging to `master` branch.
+This project is deployed automatically to [nexteria-feedback-automation.timzatko.eu](http://nexteria-feedback-automation.timzatko.eu) after pushing/merging to `master` branch.
