@@ -28,10 +28,15 @@ class App extends React.Component {
                     <img className="d-block mx-auto mb-4" src="./images/nexteria-logo.png" height="120px" alt="" />
                     <h2>Nexteria - Automatizácia spätnej väzby</h2>
                     <p className="lead">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vehicula justo arcu, ac mollis
-                        tellus ornare quis. Nunc a nulla suscipit, maximus orci eget, faucibus turpis. Sed id suscipit
-                        odio. Sed scelerisque purus imperdiet urna venenatis viverra. Etiam tristique elit quis ipsum
-                        auctor fermentum. Donec quis arcu nec orci fermentum posuere.
+                        Tento nástroj slúži na automatizáciu spätnej väzby. Návod na použitie je dostupný na{' '}
+                        <a
+                            href="https://github.com/timzatko/nexteria-feedback-automation/tree/prod/docs/Documentation.md"
+                            target="_blank"
+                        >
+                            tejto
+                        </a>{' '}
+                        stránke.
+                        <br />
                     </p>
                 </div>
 
@@ -188,13 +193,14 @@ class App extends React.Component {
                             <Input
                                 helpText={
                                     <span>
+                                        Návod na získanie credentials.json sa nachádza v{' '}
                                         <a
-                                            href="https://github.com/timzatko/nexteria-feedback-automation/tree/master/docs/GOOGLE_CREDENTIALS.md"
+                                            href="https://github.com/timzatko/nexteria-feedback-automation/tree/prod/docs/Documentation.md"
                                             target="_blank"
                                         >
-                                            Návod
-                                        </a>{' '}
-                                        na získanie credentials.json
+                                            dokumentácii
+                                        </a>
+                                        .
                                     </span>
                                 }
                                 inputKey={'credentials'}
