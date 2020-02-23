@@ -2,7 +2,7 @@
 
 ![Nexteria](docs/assets/nexteria-logo.png)
 
-[![Nexteria](https://circleci.com/gh/timzatko/nexteria-feedback-automation/tree/master.svg?style=shield)](https://circleci.com/gh/timzatko/nexteria-feedback-automation/tree/master)
+[![Nexteria Feedback Automation CI](https://circleci.com/gh/timzatko/nexteria-feedback-automation/tree/master.svg?style=shield)](https://circleci.com/gh/timzatko/nexteria-feedback-automation/tree/master)
 
 ## Documentation
 
@@ -38,4 +38,4 @@ The build is minified and the filenames include the hashes.<br />
 
 ## Deployment
 
-This project is deployed automatically to [http://nexteria.timzatko.eu/feedback-automation-v2/](http://nexteria.timzatko.eu/feedback-automation-v2/) after pushing/merging to `master` branch.
+This project is deployed automatically to [http://nexteria-feedback-automation.timzatko.eu](http://nexteria-feedback-automation.timzatko.eu) after pushing/merging to `master` branch.

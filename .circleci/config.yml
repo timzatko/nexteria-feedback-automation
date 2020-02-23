@@ -23,14 +23,19 @@ jobs:
             - node/with-cache:
                   steps:
                       - run: yarn install
-                      - run: yarn build
-                      - store_artifacts:
-                            path: build
+            - run: yarn build
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - build/*
 
     deploy:
         executor:
             name: node/default
         steps:
-            - run: apt-get update
-            - run: apt-get install ftp-upload
-            - run: ftp-upload -h '${FTP_HOST}' -u '${FTP_USERNAME}' --password '${FTP_PASSWORD}' -d 'feedback-automation-v2' 'build'
+            - checkout
+            - attach_workspace:
+                  at: .
+            - run: sudo apt-get update
+            - run: sudo apt-get install ncftp
+            - run: ncftpput -R -v -u "${FTP_USERNAME}" -p "${FTP_PASSWORD}" "${FTP_HOST}" / build/*
