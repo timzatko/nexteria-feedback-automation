@@ -30,7 +30,7 @@ class App extends React.Component {
                     <p className="lead">
                         Tento nástroj slúži na automatizáciu spätnej väzby. Návod na použitie je dostupný na{' '}
                         <a
-                            href="https://github.com/timzatko/nexteria-feedback-automation/tree/prod/docs/Documentation.md"
+                            href="https://github.com/timzatko/nexteria-feedback-automation/tree/master/docs/Documentation.md"
                             target="_blank"
                             rel="noreferrer noopener"
                         >
@@ -196,7 +196,7 @@ class App extends React.Component {
                                     <span>
                                         Návod na získanie credentials.json sa nachádza v{' '}
                                         <a
-                                            href="https://github.com/timzatko/nexteria-feedback-automation/tree/prod/docs/Documentation.md"
+                                            href="https://github.com/timzatko/nexteria-feedback-automation/blob/master/docs/Documentation.md#z%C3%ADskanie-pr%C3%ADstupu-do-google-forms-api"
                                             target="_blank"
                                             rel="noreferrer noopener"
                                         >
