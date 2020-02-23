@@ -159,6 +159,11 @@ class App extends React.Component {
                                         document={this.state.document}
                                         inputKey={'nps_mean_semester_name'}
                                         onDocumentChange={this.handleDocumentChange}
+                                        options={[
+                                            { key: 'letný', value: 'letný' },
+                                            { key: 'zimný', value: 'zimný' },
+                                        ]}
+                                        type={'select'}
                                     />
                                     <div>
                                         <span className="input-group-text">semester</span>

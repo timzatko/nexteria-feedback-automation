@@ -42,13 +42,13 @@ class Input extends React.Component {
 
     render = () => {
         if (this.props.detachInput) {
-            return this.getInput();
+            return this.renderSingle();
         }
 
         return (
             <div className="form-group">
                 <label htmlFor={this.props.inputKey}>{this.props.name}</label>
-                {this.getInput()}
+                {this.renderSingle()}
                 <small id={`${this.props.inputKey}Help`} className="form-text text-muted">
                     {this.props.helpText}
                 </small>
@@ -56,19 +56,49 @@ class Input extends React.Component {
         );
     };
 
-    getInput = () => {
+    renderSingle = () => {
+        const { type } = this.props;
+
+        if (type === 'select') {
+            return this.renderSelect();
+        }
+
+        return this.renderInput();
+    };
+
+    renderInput = () => {
         const { type, inputKey, placeholder } = this.props;
 
         return (
             <input
-                type={type || 'text'}
-                className="form-control"
                 aria-describedby={`${inputKey}Help`}
+                className="form-control"
                 id={inputKey}
-                value={this.state.value}
                 onChange={event => this.handleInputChange(event)}
                 placeholder={placeholder}
+                type={type || 'text'}
+                value={this.state.value}
             />
+        );
+    };
+
+    renderSelect = () => {
+        const { inputKey, options } = this.props;
+
+        return (
+            <select
+                aria-describedby={`${inputKey}Help`}
+                className="form-control"
+                id={inputKey}
+                onChange={event => this.handleInputChange(event)}
+                value={this.state.value}
+            >
+                {(options || []).map(({ key, value }, index) => (
+                    <option value={value} key={index}>
+                        {key}
+                    </option>
+                ))}
+            </select>
         );
     };
 }
