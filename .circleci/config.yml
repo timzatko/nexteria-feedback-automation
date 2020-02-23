@@ -33,4 +33,4 @@ jobs:
         steps:
             - run: apt-get update
             - run: apt-get install ftp-upload
-            - run: ftp-upload -h '${FTP_HOST}' -u '${FTP_USERNAME}' --password '${FTP_PASSWORD}' -d 'nexteria-feedback-automation-v2' 'build'
+            - run: ftp-upload -h '${FTP_HOST}' -u '${FTP_USERNAME}' --password '${FTP_PASSWORD}' -d 'feedback-automation-v2' 'build'
