@@ -1,6 +1,7 @@
 {
     "name": "nexteria-feedback-automation",
     "author": "Timotej Zaťko (timi.zatko@gmail.com), Pavel Balashov (pavel.balashov1@gmail.com)",
+    "license": "MIT",
     "version": "0.1.0",
     "private": false,
     "dependencies": {
