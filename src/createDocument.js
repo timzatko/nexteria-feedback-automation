@@ -5,8 +5,8 @@ import JsZipUtils from 'jszip-utils';
 import Docxtemplater from 'docxtemplater';
 import FileSaver from 'file-saver';
 
-function createDocument(url, document, credentials) {
-    return getResponses(url, credentials)
+function createDocument(url, document, api_key, client_id) {
+    return getResponses(url, api_key, client_id)
         .then(responses => {
             const { nps_promoter_percentage, nps_detractor_percentage } = responses;
 

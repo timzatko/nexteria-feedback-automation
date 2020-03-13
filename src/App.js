@@ -13,7 +13,8 @@ class App extends React.Component {
         this.state = {
             document: {},
             url: undefined,
-            credentials: undefined,
+            api_key: undefined,
+            client_id: undefined,
             status: { type: 'pristine' },
             inProgress: false,
         };
@@ -196,25 +197,28 @@ class App extends React.Component {
                                 </small>
                             </div>
                             <h2>Autorizácia do Google Forms API</h2>
+                            <p>
+                                Návod na získanie <u>API Key</u> a <u>Client ID</u> sa nachádza v{' '}
+                                <a
+                                    href="https://github.com/timzatko/nexteria-feedback-automation/blob/master/docs/Documentation.md#z%C3%ADskanie-pr%C3%ADstupu-do-google-forms-api"
+                                    target="_blank"
+                                    rel="noreferrer noopener"
+                                >
+                                    dokumentácii
+                                </a>
+                                .
+                            </p>
                             <Input
-                                helpText={
-                                    <span>
-                                        Návod na získanie credentials.json sa nachádza v{' '}
-                                        <a
-                                            href="https://github.com/timzatko/nexteria-feedback-automation/blob/master/docs/Documentation.md#z%C3%ADskanie-pr%C3%ADstupu-do-google-forms-api"
-                                            target="_blank"
-                                            rel="noreferrer noopener"
-                                        >
-                                            dokumentácii
-                                        </a>
-                                        .
-                                    </span>
-                                }
-                                inputKey={'credentials'}
-                                name={'credentials.json'}
-                                onChange={credentials => this.setState({ credentials })}
-                                type={'textarea'}
-                                value={this.state.credentials}
+                                inputKey={'api_key'}
+                                name={'API Key'}
+                                onChange={api_key => this.setState({ api_key })}
+                                value={this.state.api_key}
+                            />
+                            <Input
+                                inputKey={'client_id'}
+                                name={'Client ID'}
+                                onChange={client_id => this.setState({ client_id })}
+                                value={this.state.client_id}
                             />
                         </div>
                         {this.renderAlert()}
@@ -274,11 +278,11 @@ class App extends React.Component {
     }
 
     createDocument = () => {
-        const { url, document, credentials } = this.state;
+        const { url, document, api_key, client_id } = this.state;
 
         this.setState({ inProgress: true });
 
-        createDocument(url, document, credentials)
+        createDocument(url, document, api_key, client_id)
             .then(() => {
                 this.setStatus('success', 'Dokument bol úspešne vytvorený!');
             })

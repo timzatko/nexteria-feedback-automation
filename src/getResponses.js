@@ -1,4 +1,6 @@
-function getResponses(url, credentials) {
+function getResponses(url, api_key, client_id) {
+    console.log(url, api_key, client_id);
+
     return new Promise(resolve =>
         setTimeout(
             () =>
