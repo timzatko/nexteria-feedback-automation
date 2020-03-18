@@ -45,18 +45,18 @@ class App extends React.Component {
                 <div className="row">
                     <form>
                         <div className={inProgress ? 'in-progress' : null}>
-                            <h2>Formulár</h2>
+                            <h2>Spreadsheet</h2>
                             <Input
                                 helpText={
                                     <span>
                                         Príklad:{' '}
                                         <i>
-                                            https://docs.google.com/forms/d/1Ooo0Lv3Zqk4yjcB2SMYDlDqZpPhCjqFvv1Aae01LTIU/edit
+                                            https://docs.google.com/spreadsheets/d/1Z4WXj3utPnatIVk37jqB5RhYuCwOAxJJjhuBTJ2vA3A/edit
                                         </i>
                                     </span>
                                 }
                                 inputKey={'url'}
-                                name="URL Adresa Google Formulára"
+                                name="URL Adresa Spreadsheet"
                                 onChange={url => this.setState({ url })}
                                 value={this.state.url}
                             />
@@ -262,8 +262,8 @@ class App extends React.Component {
                 <div className={`alert alert-${status.type}`} role="alert">
                     Chyba!
                     <ul>
-                        {status.message.map(({ message }) => (
-                            <li>{message}</li>
+                        {status.message.map((message, index) => (
+                            <li key={index}>{message}</li>
                         ))}
                     </ul>
                 </div>
@@ -288,12 +288,9 @@ class App extends React.Component {
             })
             .catch(error => {
                 if (Array.isArray(error)) {
-                    this.setStatus(
-                        'danger',
-                        error.map(({ message }) => message),
-                    );
+                    this.setStatus('danger', error.map(this.getErrorMessage));
                 } else {
-                    this.setStatus('danger', error.message);
+                    this.setStatus('danger', [this.getErrorMessage(error)]);
                 }
 
                 console.error(error);
@@ -302,6 +299,10 @@ class App extends React.Component {
                 this.setState({ inProgress: false });
             });
     };
+
+    getErrorMessage(e) {
+        return e.message || e.result.error.message;
+    }
 
     reset() {
         if (window.confirm('Naozaj chcete zmazať formulár? Táto akcia sa už nedá vrátiť späť!')) {

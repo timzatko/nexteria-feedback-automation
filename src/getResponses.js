@@ -1,11 +1,9 @@
 function getResponses(url, apiKey, clientId) {
-    console.log(url, apiKey, clientId);
-
     return loadGoogleApi()
         .then(initClient(apiKey, clientId))
         .then(getAuthInstance)
         .then(signIn)
-        .then(getSpreadsheet('1Z4WXj3utPnatIVk37jqB5RhYuCwOAxJJjhuBTJ2vA3A'))
+        .then(getSpreadsheet(url))
         .then(getSpreadsheetData)
         .then(processSpreadsheetData);
 }
@@ -18,8 +16,6 @@ function loadGoogleApi() {
 
 function initClient(apiKey, clientId) {
     return function() {
-        console.debug('Client and OAuth2 modules have been loaded.');
-
         return window.gapi.client.init({
             apiKey,
             clientId,
@@ -30,16 +26,10 @@ function initClient(apiKey, clientId) {
 }
 
 function getAuthInstance() {
-    console.log('Client has been initialized.');
-
     return window.gapi.auth2.getAuthInstance();
 }
 
 function signIn(GoogleAuth) {
-    const user = GoogleAuth.currentUser.get();
-
-    console.debug({ user });
-
     if (!GoogleAuth.isSignedIn.get()) {
         return GoogleAuth.signIn().then(() => GoogleAuth);
     }
@@ -47,10 +37,10 @@ function signIn(GoogleAuth) {
     return GoogleAuth;
 }
 
-function getSpreadsheet(spreadsheetId) {
+function getSpreadsheet(url) {
     return function() {
         const params = {
-            spreadsheetId,
+            spreadsheetId: getSpreadsheetId(url),
             fields: 'sheets',
         };
 
@@ -61,18 +51,16 @@ function getSpreadsheet(spreadsheetId) {
 function getSpreadsheetData(spreadsheet) {
     const rawRowData = spreadsheet.result.sheets[0].data[0].rowData;
     const rowData = rawRowData.map(row => {
-        const rowCells = row.values.map(rowCell => {
+        return row.values.map(rowCell => {
             if (rowCell.userEnteredValue) {
                 if (rowCell.userEnteredValue.stringValue) {
                     return rowCell.userEnteredValue.stringValue;
                 } else if (rowCell.userEnteredValue.numberValue) {
                     return String(rowCell.userEnteredValue.numberValue);
-                } else {
-                    return '';
                 }
             }
+            return '';
         });
-        return rowCells;
     });
 
     // row[0] -> Header row with questions
@@ -124,8 +112,6 @@ function calculateNpsMetrics(npsScores, responseCount) {
 }
 
 function processSpreadsheetData(columnData) {
-    console.log(columnData);
-
     const response_count = columnData[1].length;
     const npsScores = columnData[2];
     const { nps_promoter_percentage, nps_detractor_percentage } = calculateNpsMetrics(npsScores, response_count);
@@ -148,30 +134,14 @@ function processSpreadsheetData(columnData) {
     };
 }
 
-// function mock() {
-//     return new Promise(resolve =>
-//         setTimeout(
-//             () =>
-//                 resolve({
-//                     response_count: 20, // pocet respondentov
-//                     nps_promoter_percentage: 65,
-//                     nps_detractor_percentage: 20,
-//                     comments_rating: [
-//                         'Pretože to bolo super, veľmi rozhľadený pán, dobre sa ho počúvalo.',
-//                         'Politika má veľký vplyv na život každého z nás a je dôležité pochopiť aká v skutočnosti môže byť.',
-//                     ],
-//                     comments_outcome: ['Že treba mať nádej', 'ĽSNS môže byť ešte nebezpečnejšie ako sa zdá.'],
-//                     comments_appreciation: ['Rozhľadenosť, múdrosť, skúsenosti'],
-//                     comments_suggestions: [
-//                         'Odpovede na otázky by mohli byť stručnejšie, aby sme stihli viac otázok a nemuseli by zachádzať do takých historických detailov.',
-//                     ],
-//                     comments_other: [
-//                         'My sme bohužiaľ kvôli záverečnej prezentácii na PVP meškali asi 20 minút a mali sme problém sa dostať do vnútra. Tak by bolo do budúcna fajn v takýchto prípadoch mať človeka na telefóne, ktorý by nám prišiel otvoriť :) (Hosť nedvíhal telefón, chápem aj to sa môže štát:) )',
-//                     ],
-//                 }),
-//             1000,
-//         ),
-//     );
-// }
+function getSpreadsheetId(url) {
+    const match = url.match(/^http[s]?:\/\/docs.google.com\/spreadsheets\/d\/([^/]+)/);
+
+    if (!match) {
+        throw new Error('Zadaná URL adresa nieje platná adresa pre Google Spreadsheet!');
+    }
+
+    return match[1];
+}
 
 export default getResponses;
