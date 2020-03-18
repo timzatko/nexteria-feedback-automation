@@ -301,7 +301,13 @@ class App extends React.Component {
     };
 
     getErrorMessage(e) {
-        return e.message || e.result.error.message;
+        return (
+            e.message ||
+            e.details ||
+            (e.result && e.result && e.result.error.message) ||
+            e.toString() ||
+            'Nastala neznáma chyba!'
+        );
     }
 
     reset() {
