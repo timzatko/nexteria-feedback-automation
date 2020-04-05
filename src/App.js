@@ -305,6 +305,7 @@ class App extends React.Component {
             e.message ||
             e.details ||
             (e.result && e.result && e.result.error.message) ||
+            (typeof e.error === 'string' ? e.error : false) ||
             e.toString() ||
             'Nastala neznáma chyba!'
         );
