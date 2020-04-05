@@ -12,6 +12,10 @@ Documentation is available [here](docs/Documentation.md).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Prerequisites
+
+-   [NodeJS](https://nodejs.org/en/) v11 (you can use [nvm](https://github.com/nvm-sh/nvm))
+
 ## Available Scripts
 
 In the project directory, you can run:
